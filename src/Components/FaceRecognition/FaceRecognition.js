@@ -1,5 +1,6 @@
 import React from 'react';
 import './FaceRecognition.css'
+import BoundaryBox from './BoundaryBox'
 
 const FaceRecognition =({ image, faceBoxArray })=>{
     return(
@@ -8,13 +9,7 @@ const FaceRecognition =({ image, faceBoxArray })=>{
                 maxWidth:'70%', maxHeight:'auto'
                 }}>
                 <img id='inputimage' alt='maximum length of link is 200 characters.' src={image} />
-                <div className='bounding-boxes' style={{
-                    position: 'absolute',
-                    left: faceBoxArray.left,
-                    top: faceBoxArray.top, 
-                    width: faceBoxArray.width,
-                    height: faceBoxArray.height,
-                    }}></div>
+                    <BoundaryBox faceBoxArray={faceBoxArray}/>
             </div>
             
         </div>
