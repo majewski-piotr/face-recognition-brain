@@ -17,40 +17,31 @@ class App extends Component{
       imageHeight:'',
       imageWidth:'',
       //this is just first element of faces, subject to change !!!!
-      arrayOfFaces:[],
-      arrayOfFacesPerc:[],
+      arrayOfFaces:'',
     }
   }
 
   //changes state as we type into ImageLinkForm
   onTypingUpdate=(event)=>{
     this.setState({urlEntered:event.target.value});
-    this.setState({arrayOfFacesPerc:[]})
+    this.setState({arrayOfFaces:undefined})
   }
-
-  //changing hardcoded pixels from api into perc values
-  calculateFaceLocation = (data) => {
-    const image = document.getElementById('inputimage');
-    const width = Number(image.width);
-    const height = Number(image.height);
-    return {
-      left: ((data[0] * 100)/width) + '%',
-      top: ((data[1] * 100)/height) + '%',
-      width: ((data[2] * 100)/width) + '%',
-      height: ((data[3] * 100)/height) + '%',
-    }
-  }
-
 
   //contacts face-recognition API when we click button in ImageLinkForm
   onClickSend = async ()=>{
+    this.calculateWidthHeight()
     deepai.setApiKey('42c0a275-1d51-4594-aa35-b2df2d943610');
     const resp = await deepai.callStandardApi("facial-recognition", {image: this.state.urlEntered});
-    this.setState({arrayOfFaces:resp.output.faces[0].bounding_box})
-    this.setState({arrayOfFacesPerc:this.calculateFaceLocation(this.state.arrayOfFaces)})
+    this.setState({arrayOfFaces:resp.output.faces});
   }
 
-
+  calculateWidthHeight = async () => {
+    const image = await document.getElementById('inputimage');
+    this.setState({imageWidth:Number(image.naturalWidth)});
+    this.setState({imageHeight:Number(image.naturalHeight)})
+;
+  }
+    
   render(){
     return (
       <div className="App">
@@ -65,7 +56,9 @@ class App extends Component{
           onClickFunc={this.onClickSend}/>
         <FaceRecognition 
           image={this.state.urlEntered} 
-          faceBoxArray={this.state.arrayOfFacesPerc}/>
+          faceBoxArray={this.state.arrayOfFaces}
+          picHeight={this.state.imageHeight}
+          picWidth={this.state.imageWidth}/>
       </div>
     );
   }
