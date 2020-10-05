@@ -3,7 +3,6 @@ import './FaceRecognition.css'
 import BoundaryBox from './BoundaryBox.js'
 
 const FaceRecognition =({ image, faceBoxArray,picHeight,picWidth })=>{
-    console.log('Facerecognition props->',faceBoxArray,picHeight,picWidth)
         return(
             <div className='center ma'>
                 <div id='inputbox' className='absolute mt2'style={{maxWidth:'70%', maxHeight:'auto'}}>

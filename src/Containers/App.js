@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
+
+import SignIn from '../Components/SignIn/SignIn.js';
+import Register from '../Components/Register/Register.js';
 import Navigation from '../Components/Navigation/Navigation.js';
 import Logo from '../Components/Logo/Logo.js';
 import ImageLinkForm from '../Components/ImageLinkForm/ImageLinkForm.js';
@@ -16,8 +19,8 @@ class App extends Component{
       urlEntered:'',
       imageHeight:'',
       imageWidth:'',
-      //this is just first element of faces, subject to change !!!!
       arrayOfFaces:'',
+      route:'SignIn',
     }
   }
 
@@ -38,30 +41,41 @@ class App extends Component{
   calculateWidthHeight = async () => {
     const image = await document.getElementById('inputimage');
     this.setState({imageWidth:Number(image.naturalWidth)});
-    this.setState({imageHeight:Number(image.naturalHeight)})
-;
+    this.setState({imageHeight:Number(image.naturalHeight)});
   }
-    
+  
+  onRouteChange=(name)=>{
+    this.setState({route:name})
+  }
+
   render(){
     return (
       <div className="App">
          <Particles 
            className='particles'
            params={particlesOptions} />
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm 
-          onChangeFunc={this.onTypingUpdate}
-          onClickFunc={this.onClickSend}/>
-        <FaceRecognition 
-          image={this.state.urlEntered} 
-          faceBoxArray={this.state.arrayOfFaces}
-          picHeight={this.state.imageHeight}
-          picWidth={this.state.imageWidth}/>
+        <Navigation onRouteChange={this.onRouteChange}/>
+        { this.state.route === 'Home'
+        ? <div>
+            <Logo />
+            <Rank />
+            <ImageLinkForm 
+              onChangeFunc={this.onTypingUpdate}
+              onClickFunc={this.onClickSend}/>
+            <FaceRecognition 
+              image={this.state.urlEntered} 
+              faceBoxArray={this.state.arrayOfFaces}
+              picHeight={this.state.imageHeight}
+              picWidth={this.state.imageWidth}/>
+        </div>
+        :(
+          this.state.route === 'SignIn'
+          ? <SignIn onRouteChange={this.onRouteChange}/>
+          : <Register onRouteChange={this.onRouteChange}/>
+        )
+           }
       </div>
     );
-  }
-}
+}}
 
 export default App;
