@@ -24,6 +24,7 @@ class App extends Component{
     }
   }
 
+
   //changes state as we type into ImageLinkForm
   onTypingUpdate=(event)=>{
     this.setState({urlEntered:event.target.value});

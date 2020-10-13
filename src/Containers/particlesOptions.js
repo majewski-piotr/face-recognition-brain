@@ -11,10 +11,10 @@ const particlesOptions = {
       line_linked: {
         color:'#000000',
         opacity:0.4,
-        distance:170,
+        distance:150,
       },
       move:{
-        speed:1,
+        speed:0.5,
       }
     },
     interactivity:{
@@ -27,7 +27,7 @@ const particlesOptions = {
       },
       modes:{
         grab:{
-          distance:75,
+          distance:200,
         }
       }
     },
