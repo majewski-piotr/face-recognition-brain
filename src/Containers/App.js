@@ -21,6 +21,13 @@ class App extends Component{
       imageWidth:'',
       arrayOfFaces:'',
       route:'SignIn',
+      user:{
+        id:'',
+        name:'',
+        email:'',
+        entries: '',
+        joined: '',
+      }
     }
   }
 
@@ -37,6 +44,7 @@ class App extends Component{
     deepai.setApiKey('42c0a275-1d51-4594-aa35-b2df2d943610');
     const resp = await deepai.callStandardApi("facial-recognition", {image: this.state.urlEntered});
     this.setState({arrayOfFaces:resp.output.faces});
+    if (await resp) { this.incrementRank() }
   }
 
   calculateWidthHeight = async () => {
@@ -49,6 +57,31 @@ class App extends Component{
     this.setState({route:name})
   }
 
+  loadUser=(data)=>{
+    this.setState({user:{
+      id:data.id,
+      name:data.name,
+      email:data.email,
+      entries: data.entries,
+      joined: data.joined,
+    }})
+  }
+
+  incrementRank=()=>{
+    fetch('http://localhost:3000/image', {
+        method:'put',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            id:this.state.user.id
+        })}
+    )
+    .then(response => response.json())
+    .then(entryValue => {
+            this.setState(Object.assign(this.state.user,{entries:entryValue}))
+        }
+    )
+}
+  
   render(){
     return (
       <div className="App">
@@ -59,7 +92,9 @@ class App extends Component{
         { this.state.route === 'Home'
         ? <div>
             <Logo />
-            <Rank />
+            <Rank 
+              name={this.state.user.name}
+              entries={this.state.user.entries}/>
             <ImageLinkForm 
               onChangeFunc={this.onTypingUpdate}
               onClickFunc={this.onClickSend}/>
@@ -72,7 +107,9 @@ class App extends Component{
         :(
           this.state.route === 'SignIn'
           ? <SignIn onRouteChange={this.onRouteChange}/>
-          : <Register onRouteChange={this.onRouteChange}/>
+          : <Register 
+              onRouteChange={this.onRouteChange}
+              loadUser={this.loadUser}/>
         )
            }
       </div>

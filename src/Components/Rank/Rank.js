@@ -1,15 +1,15 @@
 import React from 'react';
 
-const Rank =()=>{
+const Rank =({name, entries})=>{
     return(
         <div>
             <div className='f3 pa4 pv0 mb4'>   
                 <p className='pv0 mv0'>
-                    Your current ranking is ....
+                    Hello {name}, your current ranking is ....
                 </p>
                 <div className='f1 pv0 mv0'>   
                 <p className='f1 pv0 mv0 '>
-                   #2
+                   # {entries}
                 </p>
             </div>
             </div>
