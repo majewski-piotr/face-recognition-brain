@@ -17,21 +17,24 @@ class SignIn extends React.Component{
         this.setState({signInPassword:event.target.value});
     }
 
-    onSubmitSignIn=()=>{
-        fetch('http://localhost:3000/signin', {
+    onSubmitSignIn=async()=>{
+        console.log('start');
+        let response = await fetch('http://localhost:3000/signin', {
             method:'post',
             headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
                 email:this.state.signInEmail,
                 password:this.state.signInPassword
             })}
-        )
-        .then(response => response.json())
-        .then(data => {
-            if (data === 'succes'){
-                this.props.onRouteChange('Home')
-            }
-        })
+        );
+        let data = await response.json();
+        console.log('just before data received')
+        console.log(data)
+        if (data){
+            this.props.loadUser(data);
+            this.props.onRouteChange('Home');
+        }
+    
     }
     render(){
         return(

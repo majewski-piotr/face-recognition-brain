@@ -22,8 +22,8 @@ class Register extends React.Component{
         this.setState({registerUsername:event.target.value});
     }
 
-    onSubmitRegister=()=>{
-        fetch('http://localhost:3000/register', {
+    onSubmitRegister=async()=>{
+        let response = await fetch('http://localhost:3000/register', {
             method:'post',
             headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
@@ -31,14 +31,13 @@ class Register extends React.Component{
                 password:this.state.registerPassword,
                 name:this.state.registerUsername
             })}
-        )
-        .then(response => response.json())
-        .then(user => {
-            if (user){
-                this.props.loadUser(user)
-                this.props.onRouteChange('Home')
-            }
-        })
+        );
+        let user = await response.json();
+        if (user){
+            this.props.loadUser(user);
+            this.props.onRouteChange('Home');
+        }
+        
     }
 
     render(){

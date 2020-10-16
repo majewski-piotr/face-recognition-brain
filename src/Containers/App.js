@@ -46,17 +46,20 @@ class App extends Component{
     this.setState({arrayOfFaces:resp.output.faces});
     if (await resp) { this.incrementRank() }
   }
-
+  
+  //calculates true size of the image, needed for responsive boundary boxes
   calculateWidthHeight = async () => {
     const image = await document.getElementById('inputimage');
     this.setState({imageWidth:Number(image.naturalWidth)});
     this.setState({imageHeight:Number(image.naturalHeight)});
   }
   
+  //changes routes between signin, register, and home
   onRouteChange=(name)=>{
     this.setState({route:name})
   }
 
+  //loads user state once signed or registered in
   loadUser=(data)=>{
     this.setState({user:{
       id:data.id,
@@ -67,20 +70,18 @@ class App extends Component{
     }})
   }
 
-  incrementRank=()=>{
-    fetch('http://localhost:3000/image', {
+  //increments rank based on number of submits. !!! CHANGE LATER TO SCORE FOR EACH FACE
+  incrementRank= async ()=>{
+    let response = await fetch('http://localhost:3000/image', {
         method:'put',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({
             id:this.state.user.id
         })}
     )
-    .then(response => response.json())
-    .then(entryValue => {
-            this.setState(Object.assign(this.state.user,{entries:entryValue}))
-        }
-    )
-}
+    let entryValue = await response.json()
+    this.setState(Object.assign(this.state.user,{entries:entryValue}))
+    }
   
   render(){
     return (
@@ -106,7 +107,9 @@ class App extends Component{
         </div>
         :(
           this.state.route === 'SignIn'
-          ? <SignIn onRouteChange={this.onRouteChange}/>
+          ? <SignIn 
+              onRouteChange={this.onRouteChange}
+              loadUser={this.loadUser}/>
           : <Register 
               onRouteChange={this.onRouteChange}
               loadUser={this.loadUser}/>
