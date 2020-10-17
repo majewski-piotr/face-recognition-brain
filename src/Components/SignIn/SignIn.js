@@ -18,7 +18,6 @@ class SignIn extends React.Component{
     }
 
     onSubmitSignIn=async()=>{
-        console.log('start');
         let response = await fetch('http://localhost:3000/signin', {
             method:'post',
             headers:{'Content-Type':'application/json'},
@@ -28,9 +27,7 @@ class SignIn extends React.Component{
             })}
         );
         let data = await response.json();
-        console.log('just before data received')
-        console.log(data)
-        if (data){
+        if (data.id){
             this.props.loadUser(data);
             this.props.onRouteChange('Home');
         }
