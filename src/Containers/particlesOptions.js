@@ -10,11 +10,11 @@ const particlesOptions = {
       color:'#000000',
       line_linked: {
         color:'#000000',
-        opacity:0.4,
-        distance:150,
+        opacity:0.1,
+        distance:100,
       },
       move:{
-        speed:0.5,
+        speed:2,
       }
     },
     interactivity:{

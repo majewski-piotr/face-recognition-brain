@@ -25,7 +25,7 @@ const BoundaryBox=({ faceBoxArray,picWidth,picHeight })=>{
                     top: calculatedPosition.top, 
                     width: calculatedPosition.width,
                     height: calculatedPosition.height,
-                    }}>.</div>
+                    }}></div>
                 )
             }
         

@@ -9,7 +9,6 @@ import ImageLinkForm from '../Components/ImageLinkForm/ImageLinkForm.js';
 import Rank from '../Components/Rank/Rank.js';
 import FaceRecognition from '../Components/FaceRecognition/FaceRecognition.js';
 import Particles from 'react-particles-js';
-import deepai from 'deepai';
 import particlesOptions from './particlesOptions.js';
 
 class App extends Component{
@@ -41,10 +40,21 @@ class App extends Component{
   //contacts face-recognition API when we click button in ImageLinkForm
   onClickSend = async ()=>{
     this.calculateWidthHeight()
-    deepai.setApiKey('42c0a275-1d51-4594-aa35-b2df2d943610');
-    const resp = await deepai.callStandardApi("facial-recognition", {image: this.state.urlEntered});
-    this.setState({arrayOfFaces:resp.output.faces});
-    if (await resp) { this.incrementRank() }
+    console.log('sending')
+    let response = await fetch('http://localhost:3000/imageurl', {
+            method:'post',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+                url:this.state.urlEntered
+            })}
+        );
+        let data = await response.json();
+        if (data.id){
+          this.setState({arrayOfFaces:data.output.faces});
+          this.incrementRank()
+        }
+    // deepai.setApiKey('42c0a275-1d51-4594-aa35-b2df2d943610');
+    // const resp = await deepai.callStandardApi("facial-recognition", {image: this.state.urlEntered});
   }
   
   //calculates true size of the image, needed for responsive boundary boxes
@@ -61,13 +71,15 @@ class App extends Component{
 
   //loads user state once signed or registered in
   loadUser=(data)=>{
+    this.setState({urlEntered:''});
+    this.setState({arrayOfFaces:''});
     this.setState({user:{
       id:data.id,
       name:data.name,
       email:data.email,
       entries: data.entries,
       joined: data.joined,
-    }})
+    }});
   }
 
   //increments rank based on number of submits. !!! CHANGE LATER TO SCORE FOR EACH FACE
