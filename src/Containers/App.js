@@ -40,8 +40,7 @@ class App extends Component{
   //contacts face-recognition API when we click button in ImageLinkForm
   onClickSend = async ()=>{
     this.calculateWidthHeight()
-    console.log('sending')
-    let response = await fetch('http://localhost:3000/imageurl', {
+    let response = await fetch('https://boiling-temple-99924.herokuapp.com/imageurl', {
             method:'post',
             headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
@@ -84,7 +83,7 @@ class App extends Component{
 
   //increments rank based on number of submits. !!! CHANGE LATER TO SCORE FOR EACH FACE
   incrementRank= async ()=>{
-    let response = await fetch('http://localhost:3000/image', {
+    let response = await fetch('https://boiling-temple-99924.herokuapp.com/image', {
         method:'put',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({

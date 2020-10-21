@@ -23,7 +23,7 @@ class Register extends React.Component{
     }
 
     onSubmitRegister=async()=>{
-        let response = await fetch('http://localhost:3000/register', {
+        let response = await fetch('https://boiling-temple-99924.herokuapp.com/register', {
             method:'post',
             headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
