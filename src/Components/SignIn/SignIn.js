@@ -55,7 +55,7 @@ class SignIn extends React.Component{
                         <input onClick={this.onSubmitSignIn} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in" />
                         </div>
                         <div className="lh-copy mt3">
-                        <a onClick={()=> this.props.onRouteChange('Register')} href="#0" className="f6 link dim black db">Register</a>
+                        <a id='registerButton' onClick={()=> this.props.onRouteChange('Register')} href="#0" className="f6 link black grow db">Register</a>
                         </div>
                     </div>
                     </main>

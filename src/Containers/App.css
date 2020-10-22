@@ -15,3 +15,11 @@
   left: 0;
   z-index: -1;
 } 
+#detectButton{
+  min-width: 5rem;
+}
+#registerButton{
+  background: linear-gradient(90deg, #0000ff, #800080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

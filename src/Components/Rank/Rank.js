@@ -5,11 +5,11 @@ const Rank =({name, entries})=>{
         <div>
             <div className='f3 pa4 pv0 mb4'>   
                 <p className='pv0 mv0'>
-                    Hello {name}, your current ranking is ....
+                    Hello {name}, your current detections:
                 </p>
                 <div className='f1 pv0 mv0'>   
                 <p className='f1 pv0 mv0 '>
-                   # {entries}
+                   # {entries} 
                 </p>
             </div>
             </div>
